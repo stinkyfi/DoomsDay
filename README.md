@@ -1,13 +1,31 @@
-# Sample Hardhat Project
+# DoomsDay NFT
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+## Install Requirements
+The first steps are to clone the repository and install its dependencies:
+```sh
+git clone https://github.com/stinkyfi/DoomsDay.git
+cd DoomsDay
+npm install
+```
 
-Try running some of the following tasks:
+Make a copy of the sample hardhat config file, git ignores the hardhatconfig file.
+This file is sensitive, because it may contain private keys
+```sh
+cp sample.hardhat.config.ts hardhat.config.ts
+```
 
-```shell
-npx hardhat help
+## Test
+On a new terminal, go to the repository's root folder and run this to
+test the contract:
+
+```sh
 npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.ts
+```
+
+## Deploy Test
+On a new terminal, go to the repository's root folder and run this to
+deploy the contract test:
+
+```sh
+npx hardhat run scripts/deploy.ts --network <network>
 ```

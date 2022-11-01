@@ -41,6 +41,8 @@ describe("Test Initialization", function () {
       await DoomsDay.mint(1,'0x00');
       await DoomsDay.connect(addr1).mint(1, '0x00');
       await expect(DoomsDay.connect(addr2).mint(1, '0x00')).to.be.revertedWithCustomError(DoomsDay, "NotAuthorized");
+      await expect(DoomsDay.connect(addr1).mint(1, '0x00')).to.be.revertedWithCustomError(DoomsDay, "NotAuthorized");
+      await expect(DoomsDay.connect(addr1).mint(2, '0x00')).to.be.revertedWithCustomError(DoomsDay, "NotAuthorized");
     });
   });
 });
