@@ -1,4 +1,6 @@
 # DoomsDay NFT
+[![Hardhat Test](https://github.com/stinkyfi/DoomsDay/actions/workflows/hardhat_test.yml/badge.svg)](https://github.com/stinkyfi/DoomsDay/actions/workflows/hardhat_test.yml)
+[![Solhint Linter](https://github.com/stinkyfi/DoomsDay/actions/workflows/solhint_lint.yml/badge.svg)](https://github.com/stinkyfi/DoomsDay/actions/workflows/solhint_lint.yml)
 
 ## Install Requirements
 The first steps are to clone the repository and install its dependencies:
