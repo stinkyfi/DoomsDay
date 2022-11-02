@@ -1,6 +1,8 @@
 import { HardhatUserConfig } from "hardhat/config"
 import "@nomicfoundation/hardhat-toolbox"
 import "@nomicfoundation/hardhat-chai-matchers"
+import 'solidity-coverage'
+import 'hardhat-docgen'
 
 const PRIVATE_KEY = ""
 const ALCHEMY_API_KEY = ""

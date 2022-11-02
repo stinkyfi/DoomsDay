@@ -32,6 +32,8 @@ describe("Test Initialization", function () {
       expect(await DoomsDay.isWhitelisted(1, owner.address)).to.be.true;
       expect(await DoomsDay.isWhitelisted(1, addr1.address)).to.be.true;
       expect(await DoomsDay.isWhitelisted(1, addr2.address)).to.be.false;      
+
+      await expect(DoomsDay.connect(addr1).addWhitelist(1, [owner.address, addr1.address])).to.be.reverted;
     });
   });
 
@@ -51,6 +53,15 @@ describe("Test Initialization", function () {
       await expect(DoomsDay.connect(addr2).mint(1, '0x00')).to.be.revertedWithCustomError(DoomsDay, "NotAuthorized");
       await expect(DoomsDay.connect(addr1).mint(1, '0x00')).to.be.revertedWithCustomError(DoomsDay, "NotAuthorized");
       await expect(DoomsDay.connect(addr1).mint(2, '0x00')).to.be.revertedWithCustomError(DoomsDay, "NotAuthorized");
+    });
+  });
+
+  describe("Coverage", function () {
+    it("Call Functions", async function () {
+      await expect( DoomsDay.connect(addr1).setURI('')).to.be.reverted;
+      await DoomsDay.setURI('');
+
+      await DoomsDay.supportsInterface('0x12345678');
     });
   });
 });

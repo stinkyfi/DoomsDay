@@ -7,7 +7,7 @@ The first steps are to clone the repository and install its dependencies:
 ```sh
 git clone https://github.com/stinkyfi/DoomsDay.git
 cd DoomsDay
-npm install
+npm i --force
 ```
 
 Make a copy of the sample hardhat config file, git ignores the hardhatconfig file.
@@ -17,7 +17,7 @@ cp sample.hardhat.config.ts hardhat.config.ts
 ```
 
 ## Test
-On a new terminal, go to the repository's root folder and run this to
+Go to the repository's root folder and run this to
 test the contract:
 
 ```sh
@@ -25,9 +25,21 @@ npx hardhat test
 ```
 
 ## Deploy Test
-On a new terminal, go to the repository's root folder and run this to
+Go to the repository's root folder and run this to
 deploy the contract test:
 
 ```sh
 npx hardhat run scripts/deploy.ts --network <network>
+```
+
+## Solidity-Coverage Report
+Run the following command:
+```sh
+npx hardhat coverage
+```
+
+## Solhint
+Run the following command:
+```sh
+solhint 'contracts/**/*.sol'
 ```
