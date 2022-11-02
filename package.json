@@ -3,7 +3,8 @@
   "dependencies": {
     "@nomicfoundation/hardhat-toolbox": "^1.0.2",
     "@openzeppelin/contracts": "^4.7.3",
-    "chai": "^4.3.6"
+    "chai": "^4.3.6",
+    "solhint": "^3.3.7"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^1.0.3",

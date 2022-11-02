@@ -37,9 +37,17 @@ describe("Test Initialization", function () {
 
   describe("Minting", function () {
     it("Mint from Whitelist", async function () {
+       expect(await DoomsDay.balanceOf(owner.address, 1)).to.be.equal(0);
+       expect(await DoomsDay.balanceOf(addr1.address, 1)).to.be.equal(0);
+
       await DoomsDay.addWhitelist(1, [owner.address, addr1.address]);
+
       await DoomsDay.mint(1,'0x00');
+      expect(await DoomsDay.balanceOf(owner.address, 1)).to.be.equal(1);
+      
       await DoomsDay.connect(addr1).mint(1, '0x00');
+      expect(await DoomsDay.balanceOf(addr1.address, 1)).to.be.equal(1);
+      
       await expect(DoomsDay.connect(addr2).mint(1, '0x00')).to.be.revertedWithCustomError(DoomsDay, "NotAuthorized");
       await expect(DoomsDay.connect(addr1).mint(1, '0x00')).to.be.revertedWithCustomError(DoomsDay, "NotAuthorized");
       await expect(DoomsDay.connect(addr1).mint(2, '0x00')).to.be.revertedWithCustomError(DoomsDay, "NotAuthorized");
