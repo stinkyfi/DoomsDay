@@ -16,6 +16,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm install
+    - run: npm i --force
     - run: cp sample.hardhat.config.ts hardhat.config.ts
     - run: npx hardhat test
