@@ -36,6 +36,10 @@ npx hardhat run scripts/deploy.ts --network <network>
 ```
 
 ## Solidity-Coverage Report
+<p align="center">
+  <img src="https://github.com/stinkyfi/DoomsDay/blob/main/images/coverage_report.PNG">
+</p>
+
 Run the following command:
 ```sh
 npx hardhat coverage
