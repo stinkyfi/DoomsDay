@@ -14,14 +14,14 @@ contract DoomsDay is ERC1155, AccessControl {
     // @dev Contract Symbol
     string public symbol = "GMVS";
     // @dev Whitelist per Token
-    mapping (uint256 => mapping(address => bool)) whitelist;
+    mapping (uint256 => mapping(address => uint256)) whitelist;
 
     // @dev Custom Errors
     error NotAuthorized(); 
 
     // @dev ERC-1155 contract for Gloomy Doomer claims
-    // @param uri The baseURI for the token
-    constructor(string memory uri) ERC1155(uri) {
+    // @param stringURI The baseURI for the token
+    constructor(string memory stringURI) ERC1155(stringURI) {
         _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
     }
 
@@ -35,18 +35,22 @@ contract DoomsDay is ERC1155, AccessControl {
     // @param tokenId The token ID to mint
     // @param data ERC-1155
     function mint(uint256 tokenId, bytes memory data) external {
-        if(!whitelist[tokenId][_msgSender()]) { revert NotAuthorized(); }
-        whitelist[tokenId][_msgSender()] = false;
-        _mint(_msgSender(), tokenId, 1, data);
+        if(whitelist[tokenId][_msgSender()] == 0) { revert NotAuthorized(); }
+        _mint(_msgSender(), tokenId, whitelist[tokenId][_msgSender()], data);
+        whitelist[tokenId][_msgSender()] = 0;
     }
 
     // @dev Add whitelist per tokenID
     // @param tokenId The ID to set for airdrop
     // @param winners The list of address to whitelit
-    function addWhitelist(uint256 tokenId, address[] calldata winners) external onlyRole(DEFAULT_ADMIN_ROLE) {
+    // @param amount Number of mints to
+    function addWhitelist(
+        uint256 tokenId, 
+        address[] calldata winners, 
+        uint256 amount) external onlyRole(DEFAULT_ADMIN_ROLE) {
         uint256 length = winners.length;
         for (uint i; i < length;) {
-            whitelist[tokenId][winners[i]] = true;
+            whitelist[tokenId][winners[i]] = amount;
             // Cannot possibly overflow due to size of array
             unchecked {++i;}            
         }
@@ -55,7 +59,7 @@ contract DoomsDay is ERC1155, AccessControl {
     // @dev Retreive status for user on specific tokenId
     // @param tokenId The tokenId to check
     // @param user The address to check
-    function isWhitelisted(uint256 tokenId, address user) public view returns(bool) {
+    function isWhitelisted(uint256 tokenId, address user) public view returns(uint256) {
         return whitelist[tokenId][user];
     }
 

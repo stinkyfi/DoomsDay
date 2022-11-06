@@ -1,1 +1,1 @@
-module.exports = ['https://www.twistedtech.wtf/gd/'];
+module.exports = ['https://www.twistedtech.wtf/gd/{id}'];

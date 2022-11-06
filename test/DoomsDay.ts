@@ -15,7 +15,7 @@ describe("Test Initialization", function () {
     [owner, addr1, addr2, ...addrs] = await ethers.getSigners();
 
     //Deploy DoomsDay.sol
-    DoomsDay = await DoomsDay.deploy("https://www.twistedtech.wtf/gd/");
+    DoomsDay = await DoomsDay.deploy("https://www.twistedtech.wtf/gd/{id}");
     await DoomsDay.deployed();
   });
 
@@ -28,28 +28,27 @@ describe("Test Initialization", function () {
 
   describe("Whitelist", function () {
     it("Whitelist Users", async function () {
-      await DoomsDay.addWhitelist(1, [owner.address, addr1.address]);
-      expect(await DoomsDay.isWhitelisted(1, owner.address)).to.be.true;
-      expect(await DoomsDay.isWhitelisted(1, addr1.address)).to.be.true;
-      expect(await DoomsDay.isWhitelisted(1, addr2.address)).to.be.false;      
+      await DoomsDay.addWhitelist(1, [owner.address, addr1.address], 2);
+      expect(await DoomsDay.isWhitelisted(1, owner.address)).to.be.equal(2);
+      expect(await DoomsDay.isWhitelisted(1, addr1.address)).to.be.equal(2);
+      expect(await DoomsDay.isWhitelisted(1, addr2.address)).to.be.equal(0);      
 
-      await expect(DoomsDay.connect(addr1).addWhitelist(1, [owner.address, addr1.address])).to.be.reverted;
+      await expect(DoomsDay.connect(addr1).addWhitelist(1, [owner.address, addr1.address], 500)).to.be.reverted;
     });
   });
 
   describe("Minting", function () {
     it("Mint from Whitelist", async function () {
-       expect(await DoomsDay.balanceOf(owner.address, 1)).to.be.equal(0);
-       expect(await DoomsDay.balanceOf(addr1.address, 1)).to.be.equal(0);
+      expect(await DoomsDay.balanceOf(owner.address, 1)).to.be.equal(0);
+      expect(await DoomsDay.balanceOf(addr1.address, 1)).to.be.equal(0);
 
-      await DoomsDay.addWhitelist(1, [owner.address, addr1.address]);
-
+      await DoomsDay.addWhitelist(1, [owner.address, addr1.address], 2);      
       await DoomsDay.mint(1,'0x00');
-      expect(await DoomsDay.balanceOf(owner.address, 1)).to.be.equal(1);
-      
+      expect(await DoomsDay.balanceOf(owner.address, 1)).to.be.equal(2);
+
       await DoomsDay.connect(addr1).mint(1, '0x00');
-      expect(await DoomsDay.balanceOf(addr1.address, 1)).to.be.equal(1);
-      
+      expect(await DoomsDay.balanceOf(addr1.address, 1)).to.be.equal(2);
+
       await expect(DoomsDay.connect(addr2).mint(1, '0x00')).to.be.revertedWithCustomError(DoomsDay, "NotAuthorized");
       await expect(DoomsDay.connect(addr1).mint(1, '0x00')).to.be.revertedWithCustomError(DoomsDay, "NotAuthorized");
       await expect(DoomsDay.connect(addr1).mint(2, '0x00')).to.be.revertedWithCustomError(DoomsDay, "NotAuthorized");
