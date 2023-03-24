@@ -12,7 +12,7 @@ async function main() {
   }
 
   const [deployer] = await ethers.getSigners();
-  console.log(deployer);
+
   console.log(
     "Deploying the contracts with the account:",
     await deployer.getAddress()
@@ -22,7 +22,7 @@ async function main() {
   //Test Dwarf Contract
   DoomsDay = await ethers.getContractFactory("DoomsDay");
 
-  DoomsDay = await DoomsDay.deploy("https://www.twistedtech.wtf/gd/{id}");
+  DoomsDay = await DoomsDay.deploy("https://www.twistedtech.wtf/gd/");
   await DoomsDay.deployed();
   console.log("DoomsDay Deployed");
 
@@ -62,7 +62,7 @@ function genDeploymentFiles(deployer: string) {
   }
 
   // PlutoPawn
-  let data = "module.exports = ['https://www.twistedtech.wtf/gd/{id}'];";
+  let data = "module.exports = ['https://www.twistedtech.wtf/gd/'];";
   fs.writeFileSync(
     contractsDir + "/args/DoomsDay.ts", 
     data

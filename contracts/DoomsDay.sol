@@ -3,6 +3,7 @@ pragma solidity ^0.8.13;
 
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
+import "./StringConverter.sol";
 
 // @title Doomsday: Adventure Into The Gloomyverse
 // @author: Stinky (@nomamesgwei)
@@ -15,6 +16,8 @@ contract DoomsDay is ERC1155, AccessControl {
     string public symbol = "GMVS";
     // @dev Whitelist per Token
     mapping (uint256 => mapping(address => uint256)) whitelist;
+    // @dev custom baseURI
+    string private baseURI;
 
     // @dev Custom Errors
     error NotAuthorized(); 
@@ -23,6 +26,7 @@ contract DoomsDay is ERC1155, AccessControl {
     // @param stringURI The baseURI for the token
     constructor(string memory stringURI) ERC1155(stringURI) {
         _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
+        baseURI = stringURI;
     }
 
     // @dev Update the URI
@@ -67,4 +71,8 @@ contract DoomsDay is ERC1155, AccessControl {
     function supportsInterface(bytes4 interfaceId) public view override(AccessControl, ERC1155) returns (bool) {
         return super.supportsInterface(interfaceId);
     }
+
+    function uri(uint256 tokenId) public view virtual override returns(string memory) {
+      return string(abi.encodePacked(baseURI, StringConverter.toString(tokenId), '.json'));  
+    } 
 }
