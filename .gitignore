@@ -5,7 +5,10 @@ coverage.json
 typechain
 typechain-types
 
-#Hardhat files
+# Hardhat files
 cache
 artifacts
 hardhat.config.ts
+
+# Deployment files
+scripts/colony/args/Payment.ts

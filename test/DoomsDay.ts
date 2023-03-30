@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { ethers } from "hardhat";
 
-describe("Test Initialization", function () {
+describe("Doomsday Test", function () {
   let DoomsDay: any
   let owner: any
   let addr1: any
