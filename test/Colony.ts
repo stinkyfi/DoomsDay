@@ -30,63 +30,18 @@ describe("The Colony Test", function () {
     });
   });
 
-  describe("Whitelist", function () {
-    it("Whitelist Users", async function () {
-      await TheColony.addWhitelist([owner.address, addr1.address]);
-      expect(await TheColony.isWhitelisted(owner.address)).to.be.true;
-      expect(await TheColony.isWhitelisted(addr1.address)).to.be.true;
-      expect(await TheColony.isWhitelisted(addr2.address)).to.be.false;      
-
-      await expect(TheColony.connect(addr1).addWhitelist([owner.address, addr1.address])).to.be.reverted;
-    });
-    it("Mint from Whitelist", async function () {
-      expect(await TheColony.balanceOf(owner.address)).to.be.equal(0);
-      expect(await TheColony.balanceOf(addr1.address)).to.be.equal(0);
-      expect(await TheColony.isWhitelisted(owner.address)).to.be.equal(false);
-      expect(await TheColony.isWhitelisted(addr1.address)).to.be.equal(false);
-
-      await TheColony.addWhitelist([owner.address, addr1.address]);
-      expect(await TheColony.isWhitelisted(owner.address)).to.be.equal(true);
-      expect(await TheColony.isWhitelisted(addr1.address)).to.be.equal(true);    
-      await TheColony.claim();
-      expect(await TheColony.balanceOf(owner.address)).to.be.equal(1);
-      expect(await TheColony.isWhitelisted(owner.address)).to.be.equal(false);
-      expect(await TheColony.isWhitelisted(addr1.address)).to.be.equal(true);
-
-      await TheColony.connect(addr1).claim();
-      expect(await TheColony.balanceOf(addr1.address)).to.be.equal(1);
-      expect(await TheColony.isWhitelisted(owner.address)).to.be.equal(false);
-      expect(await TheColony.isWhitelisted(addr1.address)).to.be.equal(false);
-    });
-    it("Non-Whitelist Attempt", async function () {
-      expect(await TheColony.balanceOf(owner.address)).to.be.equal(0);
-      expect(await TheColony.balanceOf(addr1.address)).to.be.equal(0);
-    
-      await expect(TheColony.claim()).to.be.revertedWithCustomError(TheColony, "NotWhitelisted");
-    });
-  });
   describe("Public Mint", function () {    
     it("Mint", async function () {
       expect(await TheColony.balanceOf(owner.address)).to.be.equal(0);
       expect(await TheColony.balanceOf(addr1.address)).to.be.equal(0);
-    
-      await TheColony.updateMintState();
 
       let override = {value: ethers.utils.parseEther("0.03")};
       await TheColony.mint(3, override);
-    });
-    it("Public mint during whitelist", async function () {
-      expect(await TheColony.balanceOf(owner.address)).to.be.equal(0);
-      expect(await TheColony.balanceOf(addr1.address)).to.be.equal(0);
-
-      let override = {value: ethers.utils.parseEther("0.03")};
-      await expect(TheColony.mint(3, override)).to.be.revertedWithCustomError(TheColony, "NotPublicMint");
     });
     it("Update Price", async function () {
       expect(await TheColony.balanceOf(owner.address)).to.be.equal(0);
       expect(await TheColony.balanceOf(addr1.address)).to.be.equal(0);
     
-      await TheColony.updateMintState();
       await TheColony.updatePrice(ethers.utils.parseEther("0.001"));
 
       let override = {value: ethers.utils.parseEther("0.03")};
@@ -102,8 +57,6 @@ describe("The Colony Test", function () {
     
       await TheColony.updateMintStatus();
 
-      await TheColony.addWhitelist([owner.address]);
-      await expect(TheColony.claim()).to.be.revertedWithCustomError(TheColony, "MintClosed");
       let override = {value: ethers.utils.parseEther("0.1")};
       await expect(TheColony.connect(addr1).mint(10, override)).to.be.revertedWithCustomError(TheColony, "MintClosed");
     });
@@ -111,23 +64,22 @@ describe("The Colony Test", function () {
 
   describe("Withdraw", function () {
     it("Audit Withdraw", async function () {
-      expect(await provider.getBalance(owner.address)).to.be.equal(ethers.utils.parseEther("9999.937127078474801544"));
-      expect(await provider.getBalance(addr1.address)).to.be.equal(ethers.utils.parseEther("9999.999829618426392043"));
+      expect(await provider.getBalance(owner.address)).to.be.equal(ethers.utils.parseEther("9999.95041789846984583"));
+      expect(await provider.getBalance(addr1.address)).to.be.equal(ethers.utils.parseEther("9999.999969236492327139"));
       expect(await provider.getBalance(addr2.address)).to.be.equal(ethers.utils.parseEther("10000"));
       expect(await provider.getBalance(TheColony.address)).to.be.equal(ethers.utils.parseEther("0"));
 
-      await TheColony.updateMintState();
       let override = {value: ethers.utils.parseEther("0.1")};
       await TheColony.mint(10, override);
 
-      expect(await provider.getBalance(owner.address)).to.be.equal(ethers.utils.parseEther("9999.836978657115208079"));
-      expect(await provider.getBalance(addr1.address)).to.be.equal(ethers.utils.parseEther("9999.999829618426392043"));
+      expect(await provider.getBalance(owner.address)).to.be.equal(ethers.utils.parseEther("9999.850300232529253014"));
+      expect(await provider.getBalance(addr1.address)).to.be.equal(ethers.utils.parseEther("9999.999969236492327139"));
       expect(await provider.getBalance(addr2.address)).to.be.equal(ethers.utils.parseEther("10000"));
       expect(await provider.getBalance(TheColony.address)).to.be.equal(ethers.utils.parseEther("0.1"));
 
       await TheColony.withdraw();
-      expect(await provider.getBalance(owner.address)).to.be.equal(ethers.utils.parseEther("9999.836942610216514819"));
-      expect(await provider.getBalance(addr1.address)).to.be.equal(ethers.utils.parseEther("9999.999829618426392043"));
+      expect(await provider.getBalance(owner.address)).to.be.equal(ethers.utils.parseEther("9999.850258221140234414"));
+      expect(await provider.getBalance(addr1.address)).to.be.equal(ethers.utils.parseEther("9999.999969236492327139"));
       expect(await provider.getBalance(addr2.address)).to.be.equal(ethers.utils.parseEther("10000.1"));
       expect(await provider.getBalance(TheColony.address)).to.be.equal(ethers.utils.parseEther("0"));
     });
@@ -139,11 +91,11 @@ describe("The Colony Test", function () {
       expect(await TheColony.balanceOf(addr1.address)).to.be.equal(0);
       expect(await TheColony.balanceOf(addr2.address)).to.be.equal(0);
 
-      await TheColony.airdrop([addr1.address, addr2.address, addr1.address]);
+      await TheColony.airdrop([addr1.address, addr2.address, addr1.address], [2, 2, 1]);
 
       expect(await TheColony.balanceOf(owner.address)).to.be.equal(0);
-      expect(await TheColony.balanceOf(addr1.address)).to.be.equal(2);
-      expect(await TheColony.balanceOf(addr2.address)).to.be.equal(1);
+      expect(await TheColony.balanceOf(addr1.address)).to.be.equal(3);
+      expect(await TheColony.balanceOf(addr2.address)).to.be.equal(2);
     });
   });
 });

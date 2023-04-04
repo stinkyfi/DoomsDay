@@ -1,8 +1,10 @@
 import { ethers, hardhatArguments, artifacts } from "hardhat";
-const paydata = require("./args/Payment")
+const paydata = require("./args/Payment");
 
 let Colony: any
 let PaymentSplitter: any
+
+let baseURI = 'https://twistedtech.wtf/colony/json/';
 
 async function main() {
   if (hardhatArguments.network === "hardhat") {
@@ -29,7 +31,7 @@ async function main() {
 
   //Colony Contract
   Colony = await ethers.getContractFactory("TheColony");
-  Colony = await Colony.deploy('https://twistedtech.wtf/colony/json/', PaymentSplitter.address);
+  Colony = await Colony.deploy(baseURI, PaymentSplitter.address);
   await Colony.deployed();
   console.log("DoomsDay Deployed");
 
@@ -81,7 +83,7 @@ function genDeploymentFiles(deployer: string) {
   }
 
   // Colony
-  let data = "module.exports = [];";
+  let data = "module.exports = ['" + baseURI + "', '" + PaymentSplitter.address + "'];";
   fs.writeFileSync(
     contractsDir + "/args/Colony.ts", 
     data
@@ -90,7 +92,7 @@ function genDeploymentFiles(deployer: string) {
 
 function getVerification() {
   console.log("npx hardhat verify --network " + hardhatArguments.network + " --constructor-args ./scripts/args/Colony.ts " + Colony.address);
-  console.log("npx hardhat verify --network " + hardhatArguments.network + " --constructor-args ./scripts/args/Payment.ts " + Colony.address);
+  console.log("npx hardhat verify --network " + hardhatArguments.network + " --constructor-args ./scripts/args/Payment.ts " + PaymentSplitter.address);
 }
 
 main()
