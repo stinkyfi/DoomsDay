@@ -84,22 +84,22 @@ describe("The Colony Test", function () {
 
   describe("Withdraw", function () {
     it("Audit Withdraw", async function () {
-      expect(await provider.getBalance(owner.address)).to.be.equal(ethers.utils.parseEther("9999.940825952321464704"));
-      expect(await provider.getBalance(addr1.address)).to.be.equal(ethers.utils.parseEther("9999.999968238437921093"));
+      expect(await provider.getBalance(owner.address)).to.be.equal(ethers.utils.parseEther("9999.940497335766180024"));
+      expect(await provider.getBalance(addr1.address)).to.be.equal(ethers.utils.parseEther("9999.999968229280916937"));
       expect(await provider.getBalance(addr2.address)).to.be.equal(ethers.utils.parseEther("10000"));
       expect(await provider.getBalance(TheColony.address)).to.be.equal(ethers.utils.parseEther("0"));
 
       let override = {value: ethers.utils.parseEther("0.1")};
       await TheColony.mint(10, override);
 
-      expect(await provider.getBalance(owner.address)).to.be.equal(ethers.utils.parseEther("9999.840714696462674189"));
-      expect(await provider.getBalance(addr1.address)).to.be.equal(ethers.utils.parseEther("9999.999968238437921093"));
+      expect(await provider.getBalance(owner.address)).to.be.equal(ethers.utils.parseEther("9999.840386048855706564"));
+      expect(await provider.getBalance(addr1.address)).to.be.equal(ethers.utils.parseEther("9999.999968229280916937"));
       expect(await provider.getBalance(addr2.address)).to.be.equal(ethers.utils.parseEther("10000"));
       expect(await provider.getBalance(TheColony.address)).to.be.equal(ethers.utils.parseEther("0.1"));
 
       await TheColony.withdraw();
-      expect(await provider.getBalance(owner.address)).to.be.equal(ethers.utils.parseEther("9999.84067474504720359"));
-      expect(await provider.getBalance(addr1.address)).to.be.equal(ethers.utils.parseEther("9999.999968238437921093"));
+      expect(await provider.getBalance(owner.address)).to.be.equal(ethers.utils.parseEther("9999.840346087505006191"));
+      expect(await provider.getBalance(addr1.address)).to.be.equal(ethers.utils.parseEther("9999.999968229280916937"));
       expect(await provider.getBalance(addr2.address)).to.be.equal(ethers.utils.parseEther("10000.1"));
       expect(await provider.getBalance(TheColony.address)).to.be.equal(ethers.utils.parseEther("0"));
     });

@@ -74,6 +74,11 @@ contract TheColony is ERC721A, Ownable {
         return string(abi.encodePacked(baseURI, _toString(tokenId), ".json"));
     }
 
+    /// @dev Change beneficiary address
+    function updateBeneficiary(address newBenef) public onlyOwner {
+        beneficiary = newBenef;
+    }
+
     /// @dev Mint Open Toggle
     function updateMintStatus() public onlyOwner {
         mintOpen = !mintOpen;
