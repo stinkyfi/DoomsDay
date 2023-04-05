@@ -1,9 +1,16 @@
 # DoomsDay NFT
-[![Hardhat Test](https://github.com/stinkyfi/DoomsDay/actions/workflows/hardhat_test.yml/badge.svg)](https://github.com/stinkyfi/DoomsDay/actions/workflows/hardhat_test.yml)
+[![Colony Test](https://github.com/stinkyfi/DoomsDay/actions/workflows/colony.yml/badge.svg)](https://github.com/stinkyfi/DoomsDay/actions/workflows/colony.yml)
+[![Doomsday Test](https://github.com/stinkyfi/DoomsDay/actions/workflows/Doomsday.yml/badge.svg)](https://github.com/stinkyfi/DoomsDay/actions/workflows/Doomsday.yml)
 [![Solhint Linter](https://github.com/stinkyfi/DoomsDay/actions/workflows/solhint_lint.yml/badge.svg)](https://github.com/stinkyfi/DoomsDay/actions/workflows/solhint_lint.yml)
 
-Deployed on Arbitrum:
+(Doomsday.sol) Deployed on Arbitrum:
+
 ```0x1c1D2097147Cc1FFC0a9A3e50bDBc8Ff616CfE93```
+
+
+(TheColony.sol) Deployed on Arbitrum:
+
+```0xD81345187c8e2A24419996D0FEA18AC60464CeB2```
 
 ## Install Requirements
 The first steps are to clone the repository and install its dependencies:
@@ -27,12 +34,20 @@ test the contract:
 npx hardhat test
 ```
 
-## Deploy Test
+## Deploy
+### Doomsday
 Go to the repository's root folder and run this to
 deploy the contract test:
 
 ```sh
-npx hardhat run scripts/deploy.ts --network <network>
+npx hardhat run scripts/Doomsday/deploy.ts --network <network>
+```
+### The Colony
+Go to the repository's root folder and run this to
+deploy the contract test:
+
+```sh
+npx hardhat run scripts/Colony/deploy.ts --network <network>
 ```
 
 ## Solidity-Coverage Report

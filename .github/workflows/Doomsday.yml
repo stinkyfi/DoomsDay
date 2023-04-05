@@ -1,4 +1,4 @@
-name: Hardhat Test
+name: Doomsday Test
 
 on:
   push:
@@ -18,4 +18,4 @@ jobs:
         cache: 'npm'
     - run: npm i --force
     - run: cp sample.hardhat.config.ts hardhat.config.ts
-    - run: npx hardhat test
+    - run: npx hardhat test test/DoomsDay.ts
