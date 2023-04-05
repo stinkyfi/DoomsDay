@@ -11,7 +11,6 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract TheColony is ERC721A, Ownable {
 
-
     /// @dev baseURI for NFT Metadata
     string public baseURI;
     /// @dev Beneficiary Address
@@ -23,8 +22,6 @@ contract TheColony is ERC721A, Ownable {
     /// @dev Price to Mint an NFT
     uint256 public mintPrice = 0.01 ether;
 
-    /// @dev Throw when payment is too low
-    error InsufficientFunds();
     /// @dev Throw when minting during Mint Close
     error MintClosed();
     /// @dev Throw if NFT is Minted Out
@@ -33,6 +30,8 @@ contract TheColony is ERC721A, Ownable {
     error NotPublicMint();
     /// @dev Throw if Address list doesn't match Prize list
     error InvalidAirdrop();
+    /// @dev Throw if someone is tyring to mint 0 quanity
+    error ZeroMint();
 
     constructor(string memory uri, address benef) ERC721A('The Colony', 'COLON') {
         beneficiary = benef;
@@ -49,8 +48,10 @@ contract TheColony is ERC721A, Ownable {
     /// @param quantity Number of NFTs to mint
     function mint(uint256 quantity) external payable {
         if(!mintOpen) { revert MintClosed(); }
+        if(quantity < 1) { revert ZeroMint(); }
         if(_totalMinted() + quantity > maxSupply) { revert MintedOut(); }
-        if(mintPrice * quantity < msg.value) { revert InsufficientFunds(); }
+        require(msg.value == mintPrice * quantity, "ETH value incorrect");
+        // if((mintPrice * quantity) != msg.value) { revert InsufficientFunds(); }
         _mint(_msgSender(), quantity);
     }
 
