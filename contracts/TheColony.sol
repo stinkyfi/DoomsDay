@@ -51,12 +51,12 @@ contract TheColony is ERC721A, Ownable {
         if(quantity < 1) { revert ZeroMint(); }
         if(_totalMinted() + quantity > maxSupply) { revert MintedOut(); }
         require(msg.value == mintPrice * quantity, "ETH value incorrect");
-        // if((mintPrice * quantity) != msg.value) { revert InsufficientFunds(); }
         _mint(_msgSender(), quantity);
     }
 
     /// @dev Oblomov is Crypto Oprah
     /// @param winners The list of address receive airdrop
+    /// @param prizes The list of mint amounts
     function airdrop(address[] calldata winners, uint256[] calldata prizes) external onlyOwner {
         uint256 win_length = winners.length;
         if(win_length != prizes.length) { revert InvalidAirdrop(); }
@@ -74,7 +74,14 @@ contract TheColony is ERC721A, Ownable {
         return string(abi.encodePacked(baseURI, _toString(tokenId), ".json"));
     }
 
+    /// @dev Update the baseURI
+    /// @param newURI The new baseURI link
+    function updateURI(string calldata newURI) public onlyOwner {
+        baseURI = newURI;
+    }
+
     /// @dev Change beneficiary address
+    /// @param newBenef The address for the new Beneficiary 
     function updateBeneficiary(address newBenef) public onlyOwner {
         beneficiary = newBenef;
     }
@@ -85,6 +92,7 @@ contract TheColony is ERC721A, Ownable {
     }
 
     /// @dev Change the price of mint (create promos)
+    /// @param newPrice The new price value
     function updatePrice(uint256 newPrice) external onlyOwner {
         mintPrice = newPrice;
     }
