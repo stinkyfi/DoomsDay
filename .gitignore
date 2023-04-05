@@ -12,3 +12,4 @@ hardhat.config.ts
 
 # Deployment files
 scripts/colony/args/Payment.ts
+scripts/Colony/abi/payment-addresses.json

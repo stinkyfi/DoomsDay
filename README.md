@@ -4,7 +4,7 @@
 [![Solhint Linter](https://github.com/stinkyfi/DoomsDay/actions/workflows/solhint_lint.yml/badge.svg)](https://github.com/stinkyfi/DoomsDay/actions/workflows/solhint_lint.yml)
 
 Deployed on Arbitrum:
-```0x.```
+```0xD81345187c8e2A24419996D0FEA18AC60464CeB2```
 
 ## Install Requirements
 The first steps are to clone the repository and install its dependencies:

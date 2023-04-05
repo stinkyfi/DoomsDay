@@ -1,1 +1,1 @@
-module.exports = ['https://twistedtech.wtf/colony/json/',0x5FbDB2315678afecb367f032d93F642f64180aa3];
+module.exports = ['https://twistedtech.wtf/colony/json/', '0xFC20Dd64a8Cd1AC1360ED616495A77E27AE334F1'];
